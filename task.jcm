@@ -1,0 +1,15 @@
+/*
+  JaCaMo Project File
+  This file defines the initial state of the Multi-Agent System.
+  See here for more details: http://jacamo.sourceforge.net/doc/jcm.html.
+*/
+
+mas disinformation_tackling_mas {
+    agent admin_agent
+    agent aggregator_agent 
+    agent annotator_agent_1 : annotator_agent.asl{}
+    agent annotator_agent_2 : annotator_agent.asl{}
+}
+
+
+

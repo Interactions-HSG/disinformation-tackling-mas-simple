@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
+<organisational-specification
+        id="lab_monitoring_org"
+        os-version="0.8"
+        xmlns='http://moise.sourceforge.net/os'
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xsi:schemaLocation='http://moise.sourceforge.net/os
+                        http://moise.sourceforge.net/xml/os.xsd'>
+    <structural-specification>
+        <role-definitions>
+            <role id="annotator"/>
+        </role-definitions>
+        <group-specification id="disinformation_tackling_team">
+            <roles>
+                <role id="annotator" min="1" max="10" />
+                <role id="aggregator" min="1" max="1" />
+                <role id="admin" min="1" max="1" />
+            </roles>
+            <formation-constraints>
+            </formation-constraints>
+        </group-specification>
+    </structural-specification>
+    <functional-specification>
+        <scheme id="content_evaluation_scheme" >
+            <goal id = "content_evaluation">
+                <plan operator="parallel">
+                    <goal id="general_article_impression" ttf="700">
+                        <plan operator="sequence" >
+                            <goal id="capture_general_article_impression" ds="Creates a general impression annotation of the article" min = "2"/>
+                            <!--<goal id="annotate_images_with_original_source" ds="Annotates all web images of the article with their original source" />-->
+                            <!--<goal id="check_external_rating" ds="Checks the credibility rating of the article on external websites" />-->
+                            <goal id="aggregate_article_evaluations" ds="Aggregates article evaluations to create a summary annotation." />
+                        </plan>
+                    </goal>
+                    <goal id="article_subject" ttf="700">
+                        <plan operator="sequence" >
+                            <goal id="capture_article_subject" ds="Summarizes the subject of the article"/>
+                            <goal id="aggregate_article_evaluations" ds="Aggregates article evaluations to create a summary annotation." />
+                        </plan>
+                    </goal>
+                </plan>
+            </goal>
+            <mission id="article_subject_mission" min="1" max="10">
+                <goal id="capture_article_subject"/>
+            </mission>
+            <mission id="general_impression_mission" min="1" max="10">
+                <goal id="capture_general_article_impression"/>
+            </mission>
+            <!--<mission id="background_check_mission" min="2" max="2">
+                <goal id="check_external_rating"/>
+                <goal id="annotate_images_with_original_source"/>
+            </mission>-->
+            <mission id="aggregate_results_mission" min="1" max="2">
+                <goal id="aggregate_article_evaluations"/>
+            </mission>
+        </scheme>
+    </functional-specification>
+    <normative-specification>
+        <norm id="content_evaluation_norm"
+              type="obligation"
+              role="annotator"
+              mission="general_impression_mission"
+              time-constraint="15"/>
+        <norm id="article_subject_norm"
+              type="obligation"
+              role="annotator"
+              mission="article_subject_mission"
+              time-constraint="15"/>
+        <!--<norm id="image_investigation_norm"
+              type="obligation"
+              role="image_investigator"
+              mission="background_check_mission"
+              time-constraint="15"/>
+        <norm id="general_investigation_norm"
+              type="obligation"
+              role="general_investigator"
+              mission="background_check_mission"
+              time-constraint="15"/>-->
+        <norm id="aggregate_ratings_norm"
+              type="obligation"
+              role="aggregator"
+              mission="aggregate_results_mission"
+              time-constraint="15"/>
+    </normative-specification>
+</organisational-specification>
